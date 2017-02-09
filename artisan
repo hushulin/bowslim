@@ -1,0 +1,60 @@
+#!/usr/bin/env php
+<?php
+
+require __DIR__.'/vendor/autoload.php';
+
+use Symfony\Component\Console\Application;
+
+// Migrations system
+use Doctrine\Common\ClassLoader;
+
+$application = new Application('jiuchun' , '1.0');
+
+// Migrations autoload and register command
+$classLoader = new ClassLoader('Doctrine\DBAL\Migrations', __DIR__ . '/vendor/doctrine/migrations/lib');
+$classLoader->register();
+
+$settings = require __DIR__ . '/src/settings.php';
+$params = $settings['settings']['migration'];
+
+$db = \Doctrine\DBAL\DriverManager::getConnection($params);
+
+$helperSet = new \Symfony\Component\Console\Helper\HelperSet(array(
+    'db' => new \Doctrine\DBAL\Tools\Console\Helper\ConnectionHelper($db),
+    'dialog' => new \Symfony\Component\Console\Helper\QuestionHelper(),
+));
+
+$application->setCatchExceptions(true);
+$application->setHelperSet($helperSet);
+
+$app = new \Slim\App($settings);
+
+// Set up dependencies
+require __DIR__ . '/src/dependencies.php';
+
+$application->addCommands(array(
+    // ...
+
+    // Migrations Commands
+    new \Doctrine\DBAL\Migrations\Tools\Console\Command\DiffCommand(),
+    new \Doctrine\DBAL\Migrations\Tools\Console\Command\ExecuteCommand(),
+    new \Doctrine\DBAL\Migrations\Tools\Console\Command\GenerateCommand(),
+    new \Doctrine\DBAL\Migrations\Tools\Console\Command\MigrateCommand(),
+    new \Doctrine\DBAL\Migrations\Tools\Console\Command\StatusCommand(),
+    new \Doctrine\DBAL\Migrations\Tools\Console\Command\VersionCommand(),
+
+    // Log dir clear
+    new \Bow\console\Logclear(),
+    new \Bow\console\GenerateModel(),
+    // new \Bow\console\MpWechatInit(),
+
+    // new \Bow\database\seeders\Subject(),
+    // new \Bow\database\seeders\SchoolType(),
+    // new \Bow\database\seeders\Grade(),
+    // new \Bow\database\seeders\Kinsfolk(),
+    // new \Bow\database\seeders\Role(),
+
+    // new \Bow\database\seeders\V2data(),
+));
+
+$application->run();

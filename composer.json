@@ -1,0 +1,50 @@
+{
+    "name": "slim/slim-skeleton",
+    "description": "A Slim Framework skeleton application for rapid development",
+    "keywords": ["microframework", "rest", "router", "psr7"],
+    "homepage": "http://github.com/slimphp/Slim-Skeleton",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Josh Lockhart",
+            "email": "info@joshlockhart.com",
+            "homepage": "http://www.joshlockhart.com/"
+        }
+    ],
+    "require": {
+        "php": ">=5.5.0",
+        "slim/slim": "^3.1",
+        "monolog/monolog": "^1.17",
+        "illuminate/database": "~5.1",
+        "doctrine/doctrine-migrations-bundle": "^1.0",
+        "overtrue/wechat": "~3.1",
+        "xiaoler/blade": "^0.3.1",
+        "illuminate/encryption": "^5.3",
+        "crada/php-apidoc": "@dev",
+        "hushulin/maple": "dev-master"
+    },
+    "require-dev": {
+        "phpunit/phpunit": ">=4.8 < 6.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Bow\\": "bow/",
+            "Bow\\Model\\": "bow/database/models/",
+            "Bow\\Wechat\\": "bow/wechat/",
+            "Bow\\Dbservice\\": "bow/database/dbservice/"
+        },
+        "files": [
+            "bow/qylib/WXBizMsgCrypt.php"
+        ]
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Tests\\": "tests/"
+        }
+    },
+	"scripts": {
+        "start": "php -S 0.0.0.0:8080 -t public public/index.php",
+        "test": "phpunit"
+	}
+
+}

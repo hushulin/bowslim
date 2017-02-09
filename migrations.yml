@@ -1,0 +1,4 @@
+name: Jiuchun Migrations
+migrations_namespace: DoctrineMigrations
+table_name: migrations
+migrations_directory: bow/database/migrations

@@ -1,0 +1,29 @@
+#!/usr/bin/env php
+<?php
+require_once __DIR__.'/vendor/autoload.php';
+use Crada\Apidoc\Builder;
+use Crada\Apidoc\Exception;
+$classes = array(
+   'Bow\controller\Home\Parents',
+   'Bow\controller\Home\Subjects',
+   'Bow\controller\Home\Teachers',
+   'Bow\controller\Home\School',
+   'Bow\controller\Home\Classroom',
+   'Bow\controller\Home\Student',
+   'Bow\controller\Home\User',
+   'Bow\controller\Home\Department',
+   'Bow\controller\Admin\Corp',
+   'Bow\controller\Home\Grade',
+   'Bow\controller\Common\Send',
+   'Bow\controller\Common\AsyncKits',
+   'Bow\controller\Common\Jssdk',
+   'Bow\controller\Common\Push',
+);
+$output_dir  = __DIR__.'/public/apidocs';
+$output_file = 'api.html'; // defaults to index.html
+try {
+    $builder = new Builder($classes, $output_dir, 'Jiuchun User API(V1.0.0)', $output_file);
+    $builder->generate();
+} catch (Exception $e) {
+    echo 'There was an error generating the documentation: ', $e->getMessage();
+}
